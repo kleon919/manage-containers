@@ -9,6 +9,8 @@
   "author": "ktsesmetzidis",
   "license": "ISC",
   "dependencies": {
+    "express": "^4.17.1",
+    "body-parser": "^1.19.0",
     "node-docker-api": "^1.1.22"
   }
 }
