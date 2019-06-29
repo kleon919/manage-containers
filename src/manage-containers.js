@@ -1,7 +1,7 @@
 const {Docker}  = require('node-docker-api');
 const docker    = new Docker({ socketPath: '/var/run/docker.sock' });
 
-const {fetchAll, fetchRun, fetchIdle} = require('./view-containers');
+const {fetchAll, fetchRun, fetchIdle, fetchOne} = require('./view-containers');
 
 let inputParams = [
     {
@@ -23,6 +23,14 @@ let inputParams = [
         Image: 'hello-world'
     }
 ];
+
+const createOne = obj => docker.container.create(obj)
+
+const startOne = id => fetchOne(id)
+    .then(container => container.start())
+
+const stopOne = id => fetchOne(id)
+    .then(container => container.stop())
 
 const parallel = tasks => Promise.all(tasks.map(task => task()))
 
@@ -60,6 +68,9 @@ const stats = () => fetchAll()
 
 
 module.exports = {
+    createOne,
+    startOne,
+    stopOne,
     create: create.bind(null, inputParams),
     start,
     stop,
