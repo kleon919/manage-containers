@@ -16,9 +16,16 @@ Install the Node.js runtime and update the NPM to the latest version
 Into the root directory, run
 >npm install
 
+Build the container from the Dockerfile
+>sudo docker build -t kleon919/manage-containers
+
+Run the container
+>sudo docker run -p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock -d kleon919/manage-containers
+
+
 #### Features:
 - View which containers are running or all existed.
-- Fetch idle, running or all existed containers.
+- Fetch all, running or idle containers.
 - Create one or multiple containers based on given input.
 - Start a specific idle container. 
 - Start all idle containers concurrently.

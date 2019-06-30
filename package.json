@@ -1,9 +1,10 @@
 {
-  "name": "dock",
+  "name": "manage-containers",
   "version": "1.0.0",
-  "description": "An orchestration tool for Docker containers",
+  "description": "A tool which manages docker containers in a simple way.",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "ktsesmetzidis",
