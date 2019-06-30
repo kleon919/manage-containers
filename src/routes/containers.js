@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const manage = require('../src/containers-handlers');
+const manage = require('../handlers/containers-handlers');
 
 router.get('/', manage.getContainers)
 

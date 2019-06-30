@@ -1,5 +1,5 @@
-const {fetchAll, fetchIdle, fetchRun, fetchOne} = require('../../src/view-containers')
-const {createOne, startOne, stopOne, create, start, stop } = require('../../src/manage-containers')
+const {fetchAll, fetchIdle, fetchRun, fetchOne} = require('../core/view-containers')
+const {createOne, startOne, stopOne, create, start, stop } = require('../core/manage-containers')
 
 
 const getSpecific = async (req, res) => {

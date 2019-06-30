@@ -1,4 +1,4 @@
-const {logs, stats} = require('../../src/manage-containers')
+const {logs, stats} = require('../core/manage-containers')
 
 
 const logsOfSpecific = async (req, res) => {
