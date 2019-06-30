@@ -29,10 +29,10 @@ const parallel = tasks => Promise.all(tasks.map(task => task()))
 const createOne = obj => docker.container.create(obj)
 
 const startOne = id => fetchOne(id)
-    .then(container => container.start())
+    .then(container => container[0].start())
 
 const stopOne = id => fetchOne(id)
-    .then(container => container.stop())
+    .then(container => container[0].stop())
 
 const create = input => Promise.resolve(input)
     .then(arr => arr.map(opts => () => docker.container.create(opts)))
@@ -50,21 +50,23 @@ const stop = () => fetchRun()
     .catch(err => console.log(err))
 
 const logs = id => fetchOne(id)
-    .then(container => container.logs({ follow: true, stdout: true, stderr: true }))
+    .then(container => container[0].logs({ follow: true, stdout: true, stderr: true }))
     .then(stream => {
         stream.on('data', info => console.log(info.toString()))
         stream.on('error', err => console.log(err))
+        return stream;
     })
     .catch(err => console.log(err));
 
 const stats = id => fetchOne(id)
-    .then(container => container.status())
+    .then(container => container[0].status())
     .then(container => container.stats())
     .then(stats => {
-        stats.on('data', stat => console.log('Stats: ', JSON.parse(stat)))
+        // stats.once('data', stat => console.log('Stats: ', JSON.parse(stat)))
         stats.on('error', err => console.log('Error: ', err))
+        return stats;
     })
-    .catch(error => console.log(error));
+    .catch(err => console.log(err));
 
 
 module.exports = {

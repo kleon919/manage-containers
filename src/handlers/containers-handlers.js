@@ -23,7 +23,8 @@ const getContainers = async (req, res) => {
         if (!(req.query.state in mapObj)){
             throw new Error('Invalid input')
         }
-        res.json(mapObj[req.query.state]());
+        let response = await mapObj[req.query.state]()
+        res.json(response.map(item => item.data))
     } catch (err) {
         res.json(err.message)
     }
@@ -31,8 +32,8 @@ const getContainers = async (req, res) => {
 
 const startSpecific = async (req, res) => {
     try{
-        let response = await startOne(req.params.id)
-        res.json(response)
+        await startOne(req.params.id)
+        res.json('Container has been started with success.')
     } catch (err) {
         res.json(err.message)
     }
@@ -41,7 +42,7 @@ const startSpecific = async (req, res) => {
 const startContainers = async (req, res) => {
     try{
         await start()
-        res.json('All idle containers have been started with success')
+        res.json('All idle containers have been started with success.')
     } catch (err) {
         res.json(err.message)
     }
@@ -49,8 +50,8 @@ const startContainers = async (req, res) => {
 
 const stopSpecific = async (req, res) => {
     try{
-        let response = await stopOne(req.params.id)
-        res.json(response)
+        await stopOne(req.params.id)
+        res.json('Container has been stopped with success.')
     } catch (err) {
         res.json(err.message)
     }
@@ -59,7 +60,7 @@ const stopSpecific = async (req, res) => {
 const stopContainers = async (req, res) => {
     try{
         await stop()
-        res.json('All running containers have been stopped with success')
+        res.json('All running containers have been stopped with success.')
     } catch (err) {
         res.json(err.message)
     }

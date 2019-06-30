@@ -8,5 +8,6 @@ app.use(bodyParser.json({limit: "500mb"}));
 app.use(morgan('combined'));
 
 app.use("/containers", require("./src/routes/containers"));
+app.use("/infos", require("./src/routes/infos"));
 
 app.listen(9000, () => console.log('Listening..'));
