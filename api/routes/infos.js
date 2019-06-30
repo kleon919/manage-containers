@@ -1,7 +1,9 @@
 const router = require("express").Router();
+const {logsOfSpecific, statsOfSpecific} = require('../src/infos-handlers');
 
-router.get("/logs/:id", HANDLER1); // todo
 
-router.get('/stats/:id', HANDLER2); // todo
+router.get("/logs/:id", logsOfSpecific);
+
+router.get('/stats/:id', statsOfSpecific);
 
 module.exports = router;

@@ -1,7 +1,7 @@
 const {Docker}  = require('node-docker-api');
 const docker    = new Docker({ socketPath: '/var/run/docker.sock' });
 
-const {fetchAll, fetchRun, fetchIdle, fetchOne} = require('./view-containers');
+const {fetchRun, fetchIdle, fetchOne} = require('./view-containers');
 
 let inputParams = [
     {
@@ -24,6 +24,8 @@ let inputParams = [
     }
 ];
 
+const parallel = tasks => Promise.all(tasks.map(task => task()))
+
 const createOne = obj => docker.container.create(obj)
 
 const startOne = id => fetchOne(id)
@@ -31,8 +33,6 @@ const startOne = id => fetchOne(id)
 
 const stopOne = id => fetchOne(id)
     .then(container => container.stop())
-
-const parallel = tasks => Promise.all(tasks.map(task => task()))
 
 const create = input => Promise.resolve(input)
     .then(arr => arr.map(opts => () => docker.container.create(opts)))
@@ -49,16 +49,16 @@ const stop = () => fetchRun()
     .then(tasks => parallel(tasks))
     .catch(err => console.log(err))
 
-const logs = () => fetchAll()
-    .then(containers => containers[0].logs({ follow: true, stdout: true, stderr: true }))
+const logs = id => fetchOne(id)
+    .then(container => container.logs({ follow: true, stdout: true, stderr: true }))
     .then(stream => {
         stream.on('data', info => console.log(info.toString()))
         stream.on('error', err => console.log(err))
     })
     .catch(err => console.log(err));
 
-const stats = () => fetchAll()
-    .then(containers => containers[0].status())
+const stats = id => fetchOne(id)
+    .then(container => container.status())
     .then(container => container.stats())
     .then(stats => {
         stats.on('data', stat => console.log('Stats: ', JSON.parse(stat)))
@@ -68,10 +68,10 @@ const stats = () => fetchAll()
 
 
 module.exports = {
+    create: create.bind(null, inputParams),
     createOne,
     startOne,
     stopOne,
-    create: create.bind(null, inputParams),
     start,
     stop,
     logs,
