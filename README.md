@@ -7,7 +7,7 @@ Runs an Ubuntu dist (ubuntu-bionic-18.04 LTS)
 The latest version of Docker CE has been installed, following the official guidelines...
 https://docs.docker.com/install/linux/docker-ce/ubuntu/
 
-Pull the official Node.js, MySQL, Elixir and Jenkins docker images.
+Pull the official MySQL, Elixir, Redis and Jenkins docker images.
 >sudo docker pull 
 
 Install the Node.js runtime and update the NPM to the latest version 
@@ -16,16 +16,15 @@ Install the Node.js runtime and update the NPM to the latest version
 Into the root directory, run
 >npm install
 
-Build the container from the Dockerfile
->sudo docker build -t kleon919/manage-containers
+Build the image from the Dockerfile
+>docker build -t kleon919/manage-containers .
 
-Run the container
->sudo docker run -p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock -d kleon919/manage-containers
+Run the image
+>docker run -p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock -d kleon919/manage-containers
 
 
 #### Features:
-- View which containers are running or all existed.
-- Fetch all, running or idle containers.
+- Fetch/View all, running or idle containers.
 - Create one or multiple containers based on given input.
 - Start a specific idle container. 
 - Start all idle containers concurrently.
