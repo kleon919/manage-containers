@@ -14,6 +14,7 @@ const statsOfSpecific = async (req, res) => {
     try{
         let resStream = await stats(req.params.id)
         resStream.once('data', stat => res.json(JSON.parse(stat)))
+        resStream.on('error', err => err)
     } catch (err) {
         res.json(err.message)
     }

@@ -2,6 +2,7 @@ const {exec}    = require("child_process");
 const {Docker}  = require('node-docker-api');
 const docker    = new Docker({socketPath: '/var/run/docker.sock'});
 
+
 const list = opts => docker.container.list(opts);
 
 const one = (id) => list({all:true})

@@ -1,5 +1,5 @@
 const {fetchAll, fetchIdle, fetchRun, fetchOne} = require('../core/view-containers')
-const {createOne, startOne, stopOne, create, start, stop } = require('../core/manage-containers')
+const {create, startOne, stopOne, start, stop} = require('../core/manage-containers')
 
 
 const getSpecific = async (req, res) => {
@@ -30,6 +30,45 @@ const getContainers = async (req, res) => {
     }
 };
 
+const createContainers = async (req, res) => {
+
+    let paramsArray = [
+        {
+            name: 'test-elixir',
+            Image: 'elixir'
+        },
+        {
+            name: 'test-mysql',
+            Image: 'mysql',
+            AttachStdin: false,
+            AttachStdout: true,
+            AttachStderr: true,
+            Env: [
+                'MYSQL_ROOT_PASSWORD=administrator' // todo
+            ]
+        },
+        {
+            name: 'test-jenkins',
+            Image: 'jenkins/jenkins'
+        },
+        {
+            name: 'test-redis',
+            Image: 'redis'
+        }
+    ];
+
+    try {
+        console.log(req.body)
+        let input = req.body.images
+        let picked = paramsArray.filter(item => input.indexOf(item['Image']) !== -1)
+        let response = await create(picked)
+        console.log(response)
+        res.json('Containers have been created with success.')
+    } catch (err) {
+        res.json(err.message)
+    }
+};
+
 const startSpecific = async (req, res) => {
     try{
         await startOne(req.params.id)
@@ -37,7 +76,7 @@ const startSpecific = async (req, res) => {
     } catch (err) {
         res.json(err.message)
     }
-}
+};
 
 const startContainers = async (req, res) => {
     try{
@@ -55,7 +94,7 @@ const stopSpecific = async (req, res) => {
     } catch (err) {
         res.json(err.message)
     }
-}
+};
 
 const stopContainers = async (req, res) => {
     try{
@@ -70,6 +109,7 @@ const stopContainers = async (req, res) => {
 module.exports = {
     getSpecific,
     getContainers,
+    createContainers,
     startSpecific,
     startContainers,
     stopSpecific,
