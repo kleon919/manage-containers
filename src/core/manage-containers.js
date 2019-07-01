@@ -15,18 +15,23 @@ const stopOne = id => fetchOne(id)
 const create = input => Promise.resolve(input)
     .then(arr => arr.map(opts => () => docker.container.create(opts)))
     .then(tasks => parallel(tasks))
-    .catch(err => console.log(err))
+    .catch(err => err)
 
 const start = () => fetchIdle()
     .then(containers => containers.map(container => () => container.start()))
     .then(tasks => parallel(tasks))
-    .catch(err => console.log(err))
+    .catch(err => err)
 
 const stop = () => fetchRun()
     .then(containers => containers.filter(container => container['data']['Image'] !== 'kleon919/manage-containers'))
     .then(containers => containers.map(container => () => container.stop()))
     .then(tasks => parallel(tasks))
-    .catch(err => console.log(err))
+    .catch(err => err)
+
+const remove = () => fetchIdle()
+    .then(containers => containers.map(container => () => container.delete({ force: true })))
+    .then(tasks => parallel(tasks))
+    .catch(err => err)
 
 const logs = id => fetchOne(id)
     .then(container => container[0].logs({ follow: true, stdout: true, stderr: true }))
@@ -35,18 +40,19 @@ const logs = id => fetchOne(id)
         stream.on('error', err => console.log(err))
         return stream;
     })
-    .catch(err => console.log(err))
+    .catch(err => err)
 
 const stats = id => fetchOne(id)
     .then(container => container[0].status())
     .then(container => container.stats())
-    .catch(err => console.log(err))
+    .catch(err => err)
 
 
 module.exports = {
     startOne,
     stopOne,
     create,
+    remove,
     start,
     stop,
     logs,

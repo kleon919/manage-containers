@@ -8,6 +8,8 @@ router.get('/:id', manage.getSpecific);
 
 router.post('/', manage.createContainers);
 
+router.delete('/', manage.removeContainers);
+
 router.put('/start', manage.startContainers);
 
 router.put('/:id/start', manage.startSpecific);

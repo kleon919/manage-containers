@@ -1,5 +1,5 @@
 const {fetchAll, fetchIdle, fetchRun, fetchOne} = require('../core/view-containers')
-const {create, startOne, stopOne, start, stop} = require('../core/manage-containers')
+const {create, startOne, stopOne, start, stop, remove} = require('../core/manage-containers')
 
 
 const getSpecific = async (req, res) => {
@@ -34,36 +34,39 @@ const createContainers = async (req, res) => {
 
     let paramsArray = [
         {
-            name: 'test-elixir',
             Image: 'elixir'
         },
         {
-            name: 'test-mysql',
             Image: 'mysql',
             AttachStdin: false,
             AttachStdout: true,
             AttachStderr: true,
             Env: [
-                'MYSQL_ROOT_PASSWORD=administrator' // todo
+                'MYSQL_ROOT_PASSWORD=administrator'
             ]
         },
         {
-            name: 'test-jenkins',
             Image: 'jenkins/jenkins'
         },
         {
-            name: 'test-redis',
             Image: 'redis'
         }
     ];
 
     try {
-        console.log(req.body)
         let input = req.body.images
         let picked = paramsArray.filter(item => input.indexOf(item['Image']) !== -1)
-        let response = await create(picked)
-        console.log(response)
+        await create(picked)
         res.json('Containers have been created with success.')
+    } catch (err) {
+        res.json(err.message)
+    }
+};
+
+const removeContainers = async (req, res) => {
+    try {
+        await remove()
+        res.json('All idle containers have been removed with success.')
     } catch (err) {
         res.json(err.message)
     }
@@ -110,6 +113,7 @@ module.exports = {
     getSpecific,
     getContainers,
     createContainers,
+    removeContainers,
     startSpecific,
     startContainers,
     stopSpecific,
