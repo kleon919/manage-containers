@@ -34,7 +34,7 @@ const createContainers = async (req, res) => {
 
     let paramsArray = [
         {
-            Image: 'elixir'
+            Image: 'redis'
         },
         {
             Image: 'mysql',
@@ -46,10 +46,13 @@ const createContainers = async (req, res) => {
             ]
         },
         {
+            Image: 'nginx'
+        },
+        {
             Image: 'jenkins/jenkins'
         },
         {
-            Image: 'redis'
+            Image: 'elixir'
         }
     ];
 
