@@ -1,26 +1,31 @@
 ## manage-containers
 _A tool which manages docker containers in a simple way._
 
-The host is an EC2 Instance on AWS. 
-Runs an Ubuntu dist (ubuntu-bionic-18.04 LTS)
+#### Prerequisites
+The host shall be run on a Linux dist. Specifically, 'Ubuntu Bionic 18.04 (LTS)' has been used for the development.
 
-The latest version of Docker CE has been installed, following the official guidelines...
+The latest version of Docker CE has also been installed, following the official guidelines...
 https://docs.docker.com/install/linux/docker-ce/ubuntu/
 
-Pull the official MySQL, Elixir, Redis and Jenkins docker images.
->sudo docker pull 
+#### Build
 
-Install the Node.js runtime and update the NPM to the latest version 
->npm install -g npm@latest
+Pull the project from GitHub
+>git clone https://github.com/kleon919/manage-containers.git
 
-Into the root directory, run
->npm install
+Get the latest release of Docker CE
+>sudo sh ./scripts/get-docker.sh
+
+Pull some popular images
+>sudo sh ./scripts/pull.sh
 
 Build the image from the Dockerfile
->docker build -t kleon919/manage-containers .
+>sudo docker build -t kleon919/manage-containers .
 
 Run the image
->docker run -p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock -d kleon919/manage-containers
+>sudo docker run -p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock -d kleon919/manage-containers
+
+Request the API at:
+<link>http://localhost:9000</link>
 
 
 #### Features:
@@ -29,6 +34,12 @@ Run the image
 - Start a specific idle container. 
 - Start all idle containers concurrently.
 - Stop a specific running container. 
-- Stop all running containers concurrently
-- Retrieve logs from a specific container
-- Retrieve statistics from a specific container
+- Stop all running containers concurrently.
+- Remove all idle containers.
+- Retrieve logs from a specific container.
+- Retrieve statistics from a specific container.
+
+
+
+API documentation:
+- Drop the api-doc.yml file to the https://editor.swagger.io/ in order to view the API.

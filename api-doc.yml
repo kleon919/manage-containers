@@ -1,0 +1,181 @@
+swagger: '2.0'
+info:
+  version: '1.0.0'
+  title: manage-containers-API
+host: localhost:9000
+schemes:
+  - http
+paths:
+  /containers:
+    get:
+      description: "Get all, idle or running containers"
+      consumes:
+        - application/json
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - name: state
+          in: query
+          description: "[all || idle || run]]"
+          required: true
+          type: string
+      responses:
+        '200':
+          description: '[{Containers}]'
+    post:
+      description: "Create the containers from a given collection of images"
+      consumes:
+        - application/json
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: Body
+          description: '{["elixir", "mysql", "nginx", "redis", "jenkins/jenkins"]}'
+          required: true
+          schema:
+            $ref: '#/definitions/ContainersPOSTRequest'
+      responses:
+        '200':
+          description: 'Containers have been created with success.'
+    delete:
+      description: 'Deletes all idle containers'
+      consumes:
+        - application/json
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: "All idle containers have been deleted with success."
+  /containers/:id:
+    get:
+      description: 'Get the given container.'
+      consumes:
+        - application/json
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: The unique Id of a created container. GET/containers/?state=all
+          required: true
+          type: string
+      responses:
+        '200':
+          description: "[{Container}]"
+  /containers/:id/start:
+    put:
+      description: 'Start the given idle container.'
+      consumes:
+        - application/json
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: The unique Id of a created/idle container. GET/containers/?state=idle 
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 'Container has been started with success.'
+  /containers/:id/stop:
+    put:
+      description: 'Stop the given running container.'
+      consumes:
+        - application/json
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: The unique Id of a running container. GET/containers/?state=run
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 'Container has been stopped with success.'
+  /containers/start:
+    put:
+      description: 'Start all idle containers.'
+      consumes:
+        - application/json
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: 'All idle containers have been started with success.'
+  /containers/stop:
+    put:
+      description: 'Stop all running containers.'
+      consumes:
+        - application/json
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: 'All running containers have been stopped with success.'
+  /infos/images:
+    get:
+      description: 'Get the names of all "available" images'
+      consumes:
+        - application/json
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: "['elixir', 'mysql', 'nginx', 'redis', 'jenkins/jenkins']"
+  /infos/logs/:id:
+    get:
+      description: 'Get all logs from a given container.'
+      consumes:
+        - application/json
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: The unique Id of a container. GET/containers/?state=all 
+          required: true
+          type: string
+      responses:
+        '200':
+          description: < logs >
+  /infos/stats/:id:
+    get:
+      description: 'Get stats, actually the first chunk of the stream, of a given container.'
+      consumes:
+        - application/json
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: The unique Id of a (running) container. GET/containers/?state=run
+          required: true
+          type: string
+      responses:
+        '200':
+          description: <Stats>
+definitions:
+  ContainersPOSTRequest:
+    type: object
+    required:
+      - images
+    properties:
+      images:
+        type: array
+        items:
+          type: string
+    title: ContainersPOSTRequest          
