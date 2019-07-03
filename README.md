@@ -27,6 +27,7 @@ Request the API at:
 
 #### Features:
 - Fetch/View all, running or idle containers.
+- Get all 'available' images.
 - Create one or multiple containers based on given input.
 - Start a specific idle container. 
 - Start all idle containers concurrently.
