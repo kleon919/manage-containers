@@ -2,10 +2,7 @@
 _A tool which manages docker containers in a simple way._
 
 #### Prerequisites
-The host shall be run on a Linux dist. Specifically, 'Ubuntu Bionic 18.04 (LTS)' has been used for the development.
-
-The latest version of Docker CE has also been installed, following the official guidelines...
-https://docs.docker.com/install/linux/docker-ce/ubuntu/
+The host shall be run on a Linux dist. Ubuntu Bionic 18.04 (LTS) has been used for development.
 
 #### Build
 
