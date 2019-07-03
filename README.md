@@ -41,3 +41,5 @@ Request the API at:
 
 API documentation:
 - Drop the api-doc.yml file to the https://editor.swagger.io/ in order to view the API.
+
+![API Methods](/img/manage-containers-api-methods.png)
