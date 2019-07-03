@@ -1,5 +1,6 @@
 const {logs, stats} = require('../core/manage-containers')
 
+const getImages = async (req, res) => res.json(['elixir', 'mysql', 'nginx', 'redis', 'jenkins/jenkins'])
 
 const logsOfSpecific = async (req, res) => {
     try{
@@ -22,6 +23,7 @@ const statsOfSpecific = async (req, res) => {
 
 
 module.exports = {
+    getImages,
     logsOfSpecific,
     statsOfSpecific
 }
