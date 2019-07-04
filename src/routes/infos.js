@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const {logsOfSpecific, statsOfSpecific} = require('../handlers/infos-handlers');
+const {logsOfSpecific, statsOfSpecific, getImages} = require('../handlers/infos-handlers');
 
 
 router.get("/images", getImages);
